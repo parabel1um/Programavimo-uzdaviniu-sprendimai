@@ -13,8 +13,6 @@ int main() {
             cin >> a[i]; 
         }
 
-        b[n] = a[n];
-
         for (int i = n - 1; i > 0; i--) {
             b[i] = min(a[i], b[i + 1]);
         }
