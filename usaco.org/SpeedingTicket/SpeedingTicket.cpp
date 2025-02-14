@@ -9,42 +9,43 @@ struct Segment {
 int main() {
     freopen("speeding.in", "r", stdin);
     freopen("speeding.out", "w", stdout);
+    
     int N, M, maxo = 0;
-    cin>>N>>M;
-    vector<Segment> NS(N);
-    vector<Segment> MS(M);
+    scanf("%d %d", &N, &M);
+    
+    vector<Segment> NS(N), MS(M);
 
-    for (int i=0;i<N;i++){
-        cin>>NS[i].length>>NS[i].speed;
-    };
-
-    for (int i=0;i<M;i++){
-        cin>>MS[i].length>>MS[i].speed;
+    for (int i = 0; i < N; i++) {
+        cin >> NS[i].length >> NS[i].speed;
     }
 
-    int j = 0, k=0; // kelio segmento ilgis teisetas k karves vaziuoto j de facto;
-    int atsj = 0, atsk = 0;
+    for (int i = 0; i < M; i++) {
+        cin >> MS[i].length >> MS[i].speed;
+    }
 
-    while (atsj<100 && atsk<100) {
-        maxo = max(maxo, MS[k].speed - NS[j].speed);
-        
-        if(NS[j].length < MS[k].length) {
-            atsj += NS[j].length;
-            MS[k].length -= NS[j].length; // nes mums liko
+    int j = 0, k = 0; // j - greicio limitas , k - karves
+    int atslikj = MS[0].length, atslikk = NS[0].length;
+
+    while (k < N && j < M) {
+        if (MS[j].speed > NS[k].speed) {
+            maxo = max(maxo, MS[j].speed - NS[k].speed);
+        }        
+        int skirt = min(atslikj, atslikk);
+
+        atslikj -= skirt;
+        atslikk -= skirt;
+
+        if (atslikj == 0 && j + 1 <= M) { 
             j++;
-        } else if (NS[j].length == MS[j].length) {
-            atsj += NS[j].length;
-            j++;
-            atsk += MS[k].length;
+            atslikj = MS[j].length;
+        }
+
+        if (atslikk == 0 && k + 1 <= N) { 
             k++;
-        } else {
-            atsk += MS[k].length;
-            NS[j].length -= MS[k].length; // nes dar liko
-            k++;
+            atslikk = NS[k].length;
         }
     }
 
-    cout<<maxo<<endl;
-
+    cout << maxo << endl;
     return 0;
 }
