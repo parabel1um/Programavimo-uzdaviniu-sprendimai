@@ -1,71 +1,45 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 
-string ckey(const vector<int>& dyd) {
-    string key;
-    for (int size : dyd) {
-        key += to_string(size) + ",";
-    }
-    return key;
-}
+int max_convenience(const vector<int>& a) {
+    int n = a.size();
+    int max_convenience_value = INT_MIN;
 
-int solve(const vector<int>& dyd, unordered_map<string, int>& cache) {
-    string key = ckey(dyd);
-    
-    if (cache.find(key) != cache.end()) {
-        return cache[key];
-    }
-
-    int n = dyd.size();
-    int maxxconv = numeric_limits<int>::min();
-    deque<int> maxx, minn;
-
-    for (int l = 0; l < n; ++l) {
-        maxx.clear();
-        minn.clear();
-
-        for (int r = l; r < n; ++r) {
-            while (!maxx.empty() && dyd[maxx.back()] <= dyd[r]) {
-                maxx.pop_back();
-            }
-            maxx.push_back(r);
-
-            while (!minn.empty() && dyd[minn.back()] >= dyd[r]) {
-                minn.pop_back();
-            }
-            minn.push_back(r);
-
-            int current_max = dyd[maxx.front()];
-            int current_min = dyd[minn.front()];
-
-            maxxconv = max(maxxconv, current_max - current_min - (r - l));
+    for (int i = 0; i < n; i++) {
+        for (int j = i; j < n; j++) {
+            int sub_max = *max_element(a.begin() + i, a.begin() + j + 1);
+            int sub_min = *min_element(a.begin() + i, a.begin() + j + 1);
+            int convenience = sub_max - sub_min - (j - i);
+            max_convenience_value = max(max_convenience_value, convenience);
         }
     }
 
-    cache[key] = maxxconv;
-    return maxxconv;
+    return max_convenience_value;
 }
 
 int main() {
     int t;
     cin >> t;
+    
     while (t--) {
         int n, q;
         cin >> n >> q;
-        vector<int> dyd(n);
-        for (int i = 0; i < n; ++i) {
-            cin >> dyd[i];
+        
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
         }
+        
+        cout << max_convenience(a) << endl;
 
-        unordered_map<string, int> cache;
-        cout << solve(dyd, cache) << endl;
-
-        for (int i = 0; i < q; ++i) {
+        for (int i = 0; i < q; i++) {
             int p, x;
             cin >> p >> x;
-            dyd[p - 1] = x;
-
-            cout << solve(dyd, cache) << endl;
+            a[p - 1] = x;
+            cout << max_convenience(a) << endl;
         }
     }
 
