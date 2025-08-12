@@ -13,23 +13,36 @@ struct Node {
     Node *next; // pointer to ANOTHER node, POINTER OF ENTIRE NODE
 };
 
-
+// we insert it at the very back of the list
+void insert(Node* &head, int data) { // head is passed by reference 
+    // head - node pointing to, data, inserted
+    Node* tempPtr = new Node;
+    tempPtr->data = data;
+    tempPtr->next = head; // head, without a pointer, returns an address
+    head = tempPtr; 
+    // head address STAYS THE SAME // meaning we still can access it because we have variable for it in main code
+    // but content changes 
+}
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
+    // THERES NO PREDEFINED LIST, WE JUST NEED TO KNOW ADDRESSES
+
     // declaring pointers, only containing address in memory
     Node* h; // head
-    Node* t; // temp
-    Node* n;
+    h=new Node;
+    h->data=20;
+    h->next=NULL;
 
-    n= new Node; // new Node - CREATES A STRUCT AND RETURNS A POINTER to randomly allocated in memory;
-    // we have a EMPTY type which we FILL with RANDOMLY ALLOCATED (USING ENW KEYWORD)
-    // so pointer type MUST MATCH new type
-    n->data=10; 
-
+    insert(h,30);
     
+    Node* tempPtr=h;
+    while(tempPtr!=NULL){
+        cout<<tempPtr->data<<endl;
+        tempPtr=tempPtr->next;
+    }
 
     return 0;
 }

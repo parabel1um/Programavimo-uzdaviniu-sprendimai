@@ -21,6 +21,18 @@ void updateStruct(struct Person *person, int age) { // declare pointer in args t
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
+
+    // imagine pointers like this
+    // imagine handing out pizzas at your own house
+    // the flyer you hand out will be the pointer to the ADRESS OF THE HOUSE
+    // thus we declare
+    // pointer(flyer) has address
+    // string *flyer = &house;
+    // cout << *flyer << endl; -- tikras adresas
+    // cout << flyer << endl; -- vieta lankstinuke
+    // 
+    // iskyrus jeigu norime pointeri priskirti masyvui
+    //  cout << A[2] << endl; - adresas
     
     int x = 8;
     int* p = &x; // & for address of x, *p pointer;
