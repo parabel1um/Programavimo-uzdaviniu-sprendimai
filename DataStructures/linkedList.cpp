@@ -13,13 +13,13 @@ struct Node {
     Node *next; // pointer to ANOTHER node, POINTER OF ENTIRE NODE
 };
 
-// we insert it at the very back of the list
+// we insert it at the very front of the list
 void insert(Node* &head, int data) { // head is passed by reference 
     // head - node pointing to, data, inserted
     Node* tempPtr = new Node;
     tempPtr->data = data;
     tempPtr->next = head; // head, without a pointer, returns an address
-    head = tempPtr; 
+    head = tempPtr; // tempPtr is a pointer
     // head address STAYS THE SAME // meaning we still can access it because we have variable for it in main code
     // but content changes 
 }
@@ -36,12 +36,13 @@ int main(){
     h->data=20;
     h->next=NULL;
 
-    insert(h,30);
-    
-    Node* tempPtr=h;
-    while(tempPtr!=NULL){
-        cout<<tempPtr->data<<endl;
-        tempPtr=tempPtr->next;
+    insert(h, 20);
+    insert(h, 30);
+
+    Node* tempPtr = h;
+    while (tempPtr != nullptr){
+        cout << tempPtr->data << "\n";
+        tempPtr = tempPtr->next;
     }
 
     return 0;
