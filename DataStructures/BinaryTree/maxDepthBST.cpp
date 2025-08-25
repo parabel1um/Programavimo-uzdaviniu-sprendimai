@@ -14,19 +14,37 @@ struct BSTNode {
     BSTNode* right;
 };
 
-int FindMin(BSTNode* root) {
-    if(root==NULL) return -1;
-    BSTNode* curr=root;
-    while(curr->left!=NULL) curr=curr->left;
-    return curr->data;
+int heightOfTree(BSTNode *root) {
+    if (root == nullptr) return -1;
+
+    int lHeight = heightOfTree(root->left);
+    int rHeight = heightOfTree(root->right);
+
+    return max(lHeight, rHeight) + 1;
 }
 
-int FindMax(BSTNode* root) {
-    if(root==NULL) return -1;
-    if(root->right==NULL) return root->data;
-    return FindMax(root->right);
-}
+int heightOfTreeByUsingQueue(BSTNode* root) {
+    if (root == NULL) return 0;
 
+    int currHeight = -1;
+    queue<BSTNode*> q;
+    q.push(root);
+
+    //bascially pridedame subtree root ir panaikiname du children, height+1
+    //kai panaikiname VISĄ VIENO LYGMENS EILĘ, pridedame vieną
+    while (!q.empty()) {
+        int size = q.size(); //after adding root size will be 0
+        while (size--) {
+            BSTNode* curr = q.front();
+            q.pop();
+            if (curr->left != NULL) q.push(curr->left);
+            if (curr->right != NULL) q.push(curr->right);
+        }
+        currHeight++;
+    }
+
+    return currHeight;
+}
 
 BSTNode* createNewNode(int data) {
     BSTNode* newNode = new BSTNode();
@@ -64,7 +82,8 @@ int main(){
     root=Insert(root, 66);
     root=Insert(root, 90);
     
-    cout<<"Min: "<<FindMin(root)<<"\nMax: "<<FindMax(root);
+    cout<<"height:"<<heightOfTree(root)<<"\n";
+    cout<<"Height of tree by using queue: "<<heightOfTreeByUsingQueue(root)<<"\n";
 
     return 0;
 }
