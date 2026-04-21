@@ -5,7 +5,7 @@ public:
         sort(nums.begin(), nums.end());
 
         for (int i=0;i<nums.size()-1;i++){
-            // Jeigu yra besidubliuojančių skaičių
+            // Jeigu yra besdubliuojančių skaičių
             if (i>0 && nums[i]== nums[i-1]) continue; // tęsiame toliau
             int left = i+1;
             int right = nums.size()-1;
